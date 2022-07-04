@@ -1,7 +1,8 @@
 <?php
 
-include_once "../conf/default.inc.php";
-require_once "../conf/Connection.php";
+include_once __DIR__ . "/../conf/default.inc.php";
+require_once __DIR__ . "/../conf/Connection.php";
+require_once __DIR__ ."/../autoload.php";
 
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 if ($action == "delete") {
@@ -32,4 +33,15 @@ function delete($id)
   $query->bindValue(':id', $id, PDO::PARAM_STR);
   $query->execute();
   header("location:../categories.php");
+}
+
+function findNonAdmin()
+{
+  $pdo = Connection::getInstance();
+  $query = $pdo->query("SELECT * from roles WHERE roles.description != 'Admin'");
+  $result = array();
+  foreach($query as $row){
+    array_push($result, new Role($row['description'], $row['id']));
+  }
+  return $result;
 }

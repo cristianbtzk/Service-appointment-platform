@@ -1,7 +1,7 @@
 <?php
 
-include_once "../conf/default.inc.php";
-require_once "../conf/Connection.php";
+include_once __DIR__ ."/../conf/default.inc.php";
+require_once __DIR__ ."/../conf/Connection.php";
 
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 if ($action == "delete") {
@@ -9,12 +9,15 @@ if ($action == "delete") {
   delete($id);
 }
 
-$action = isset($_POST['action']) ? $_POST['action'] : "";
-
-if ($action == "create") {
-  $name = isset($_POST['name']) ? $_POST['name'] : "";
-  $abbreviation = isset($_POST['abbreviation']) ? $_POST['abbreviation'] : "";
-  createState($name, $abbreviation);
+function findAll()
+{
+  $pdo = Connection::getInstance();
+  $query = $pdo->query("SELECT * from states");
+  $result = array();
+  foreach($query as $row){
+    array_push($result, new State($row['name'], $row['abbreviation'], $row['id']));
+  }
+  return $result;
 }
 
 function createState($name, $abbreviation)

@@ -1,7 +1,8 @@
 <?php
 
-include_once "../conf/default.inc.php";
-require_once "../conf/Connection.php";
+include_once __DIR__ . "/../conf/default.inc.php";
+require_once __DIR__ . "/../conf/Connection.php";
+require_once __DIR__ ."/../autoload.php";
 
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 if ($action == "delete") {
@@ -15,6 +16,17 @@ if ($action == "create") {
   $title = isset($_POST['title']) ? $_POST['title'] : "";
   $description = isset($_POST['description']) ? $_POST['description'] : "";
   createCategory($title, $description);
+}
+
+function findAll()
+{
+  $pdo = Connection::getInstance();
+  $query = $pdo->query("SELECT * from categories");
+  $result = array();
+  foreach($query as $row){
+    array_push($result, new Category($row['title'], $row['description'], $row['id']));
+  }
+  return $result;
 }
 
 function createCategory($title, $description)
