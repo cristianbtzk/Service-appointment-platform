@@ -1,5 +1,7 @@
 <?php
-abstract class State extends AbsId
+include_once('AbsId.class.php');
+
+class User extends AbsId
 {
   private $isActive;
   private $email;
@@ -7,8 +9,9 @@ abstract class State extends AbsId
   private $password;
   private $cpf;
   private $cnpj;
+  private $role;
 
-  function __construct($name, $email, $password, $cpf, $cnpj, $isActive = true,  $id = null)
+  function __construct($role, $name, $email, $password, $cpf, $cnpj, $isActive = true,  $id = null)
   {
     parent::__construct($id);
     $this->setName($name);
@@ -17,7 +20,10 @@ abstract class State extends AbsId
     $this->setCpf($cpf);
     $this->setCnpj($cnpj);
     $this->setIsActive($isActive);
+    $this->setRole($role);
   }
+
+
 
   public function getIsActive()
   {
@@ -87,6 +93,18 @@ abstract class State extends AbsId
   public function setCnpj($cnpj)
   {
     $this->cnpj = $cnpj;
+
+    return $this;
+  }
+
+  public function getRole()
+  {
+    return $this->role;
+  }
+
+  public function setRole($role)
+  {
+    $this->role = $role;
 
     return $this;
   }
