@@ -1,5 +1,5 @@
 <?php
-  include_once('AbsIdDescription.php');
+  include_once('AbsIdDescription.class.php');
   class Category extends AbsIdDescription{
     private $title;
 
