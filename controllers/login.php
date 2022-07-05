@@ -24,12 +24,15 @@ function login($email, $pass)
   $consulta = $pdo->query("SELECT * FROM users WHERE email = '$email'");
   $name = '';
   $pass_bd = '';
+  $id = '';
   while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
+    $id = $linha['id'];
     $name = $linha['name'];
     $pass_bd = $linha['password'];
   }
   if (sha1($pass) == $pass_bd) {
     session_start();
+    $_SESSION['id'] = $id;
     $_SESSION['email'] = $email;
     $_SESSION['name'] = $name;
     header("location:../categories.php");
