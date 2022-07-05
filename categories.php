@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-require_once "conf/Connection.php";
-require_once "autoload.php";
+require_once __DIR__ . "/conf/Connection.php";
+require_once __DIR__ . "/autoload.php";
 $pdo = Connection::getInstance();
 ?>
 
@@ -48,6 +48,7 @@ $pdo = Connection::getInstance();
                     $category->getDescription() ?>
                 </td>
                 <td>
+                  <a href="new-category.php?operation=update&id=<?=$category->getId() ?>">Alterar</a>
                   <a href="javascript:remove('controllers/category.php?action=delete&id=<?= $category->getId() ?>')">Deletar</a>
                 </td>
               </tr>
