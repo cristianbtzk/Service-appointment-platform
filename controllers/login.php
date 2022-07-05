@@ -32,7 +32,7 @@ function login($email, $pass)
   }
   if (sha1($pass) == $pass_bd) {
     session_start();
-    $_SESSION['id'] = $id;
+    $_SESSION['userId'] = $id;
     $_SESSION['email'] = $email;
     $_SESSION['name'] = $name;
     header("location:../categories.php");
