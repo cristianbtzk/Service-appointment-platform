@@ -2,6 +2,12 @@
 <html lang="en">
 <?php 
   require_once __DIR__ . "/controllers/category.php";
+  require_once __DIR__ . "/controllers/service.php";
+  $operation = isset($_GET['operation']) ? $_GET['operation'] : 'create';
+  $service = null;
+  if ($operation == 'update') {
+    $service = findServiceById($_GET['id']);
+  }
 ?>
 <head>
   <meta charset="UTF-8">
@@ -14,10 +20,11 @@
   <div class="categories-container">
     <?php include('./menu.php') ?>
     <form action="controllers/service.php" method="POST">
-      <input type="text" name="title" placeholder="Título">
-      <input type="text" name="description" placeholder="Descrição">
-      <input type="datetime-local" name="min-date" placeholder="Data mĩnima">
-      <input type="datetime-local" name="max-date" placeholder="Data Máxima">
+      <input type="text" name="id" style="display: none;" value=<?php echo !$service ? null : $service->getId() ?>>
+      <input type="text" name="title" placeholder="Título" value=<?php echo !$service ? null : $service->getTitle() ?>>
+      <input type="text" name="description" placeholder="Descrição" value=<?php echo !$service ? null : $service->getDescription() ?>>
+      <input type="datetime-local" name="min-date" placeholder="Data mĩnima" value=<?php echo !$service ? null : date('Y-m-d\TH:i', strtotime($service->getMinDate())) ?>>
+      <input type="datetime-local" name="max-date" placeholder="Data Máxima" value=<?php echo !$service ? null : date('Y-m-d\TH:i', strtotime($service->getMaxDate())) ?>>
       <select name="category_id">
         <?php
           foreach(findAll() as  $category) {
@@ -27,7 +34,7 @@
           }
         ?>
       </select>
-      <button type="submit" name="action" value="create">Cadastrar</button>
+      <button type="submit" name="action" value=<?=$operation ?>>Enviar</button>
 
     </form>
   </div>

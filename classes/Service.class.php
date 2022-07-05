@@ -1,7 +1,7 @@
 <?php
-  include_once 'AbsIdDescription.php';
+  include_once __DIR__ . '/AbsIdDescription.class.php';
 
-  class Message extends AbsIdDescription{
+  class Service extends AbsIdDescription{
     private $title;
     private $description;
     private $minDate;
@@ -10,10 +10,11 @@
     private $category;
     private $status;
 
-    function __construct($status, $category, $user, $maxDate, $minDate, $description, $id)
+    function __construct($status, $title, $category, $user, $maxDate, $minDate, $description, $id = null)
     {
       parent::__construct($description, $id);
       $this->setStatus($status); 
+      $this->setTitle($title); 
       $this->setCategory($category); 
       $this->setUser($user); 
       $this->setMaxDate($maxDate); 
