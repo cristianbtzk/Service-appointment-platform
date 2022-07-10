@@ -7,7 +7,7 @@ require_once __DIR__ ."/../autoload.php";
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 if ($action == "delete") {
   $id = $_GET['id'];
-  delete($id);
+  deleteCategory($id);
 }
 
 $action = isset($_POST['action']) ? $_POST['action'] : "";
@@ -18,7 +18,7 @@ if ($action == "create") {
   createCategory($title, $description);
 }
 
-function findAll()
+function findAllCategories()
 {
   $pdo = Connection::getInstance();
   $query = $pdo->query("SELECT * from categories");
@@ -37,7 +37,7 @@ function createCategory($title, $description)
   header("location:../categories.php");
 }
 
-function delete($id)
+function deleteCategory($id)
 {
   $pdo = Connection::getInstance();
   $query = $pdo->prepare('DELETE FROM categories WHERE id=:id;');

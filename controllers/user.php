@@ -35,8 +35,8 @@ function create(User $user)
   $query->bindValue(':password',$passwordHash, PDO::PARAM_STR);
   $query->bindValue(':cpf', $user->getCpf(), PDO::PARAM_STR);
   $query->bindValue(':cnpj', $user->getCnpj(), PDO::PARAM_STR);
-  print_r($query);
+
   $query->execute();
 
-  header("location:../categories.php");
+  header("location:../login.php");
 }

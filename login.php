@@ -24,6 +24,7 @@ $msg = isset($_GET['msg']) ? $_GET['msg'] : '';
       <input type="text" name="email" placeholder="Email">
       <label for="password">Senha</label>
       <input type="password" name="password" placeholder="Senha">
+      <a href="sign-up.php">Crie uma conta</a>
       <button type="submit" name="action" value="login">Entrar</button>
     </form>
   </div>

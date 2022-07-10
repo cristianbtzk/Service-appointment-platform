@@ -1,10 +1,12 @@
 <?php
+if(!isset($_SESSION)) 
+{ 
+    session_start(); 
+} 
 
 include_once __DIR__ . "/../conf/default.inc.php";
 require_once __DIR__ . "/../conf/Connection.php";
 require_once __DIR__ ."/../autoload.php";
-
-session_start();
 
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 if ($action == "delete") {
@@ -15,6 +17,7 @@ if ($action == "delete") {
 $action = isset($_POST['action']) ? $_POST['action'] : "";
 
 if ($action == "create") {
+  print_r($_SESSION);
   $userId = $_SESSION['userId'];
   $cityId = isset($_POST['city_id']) ? $_POST['city_id'] : "";
   $houseNumber = isset($_POST['house_number']) ? $_POST['house_number'] : "";
@@ -61,6 +64,20 @@ function findById($id)
   }
   
   return $row;
+}
+
+function findAddressesByUserId()
+{
+  $pdo = Connection::getInstance();
+  $userId = $_SESSION['userId'];
+  $query = $pdo->prepare("SELECT * from addresses where user_id=:user_id");
+  $query->bindValue(':user_id', $userId, PDO::PARAM_STR);
+  $query->execute();
+  $result = array();
+  foreach($query as $row){
+    array_push($result, new Address($row['house_number'], $row['street'], $row['postal_code'], $row['district'], $row['user_id'], $row['city_id'], $row['id']));
+  }
+  return $result;
 }
 
 function create(Address $address)

@@ -1,12 +1,12 @@
 <?php
-  include_once('AbsIdDescription.php');
+  include_once('AbsIdDescription.class.php');
   include_once('State.class.php');
 
   class City extends AbsId{
     private $name;
-    private State $state;
+    private $state;
 
-    function __construct(State $state, $name, $id)
+    function __construct($state, $name, $id)
     {
       parent::__construct($id);
       $this->setState($state);
@@ -26,7 +26,7 @@
       return $this->state;
     }
 
-    function setState(State $state) {
+    function setState($state) {
       $this->state = $state;
     }
   }

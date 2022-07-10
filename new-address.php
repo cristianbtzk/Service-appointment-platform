@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-require_once __DIR__ . "/controllers/address.php";
+session_start();
+include_once __DIR__ . "/controllers/address.php";
+require_once __DIR__ . "/controllers/state.php";
 $operation = isset($_GET['operation']) ? $_GET['operation'] : 'create';
 $address = null;
 if ($operation == 'update') {
@@ -18,6 +20,8 @@ if ($operation == 'update') {
 </head>
 
 <body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
   <div class="categories-container">
     <?php include('./menu.php') ?>
     <form action="controllers/address.php" method="POST">
@@ -26,12 +30,40 @@ if ($operation == 'update') {
       <input type="text" name="street" placeholder="Rua" value=<?php echo !$address ? null : $address->getStreet() ?>>
       <input type="text" name="postal_code" placeholder="CEP" value=<?php echo !$address ? null : $address->getPostalCode() ?>>
       <input type="text" name="district" placeholder="Bairro" value=<?php echo !$address ? null : $address->getDistrict() ?>>
-      <input type="text" name="city_id" placeholder="Cidade" value=<?php echo !$address ? null : $address->getCity() ?>>
+      <select id="state" name="state_id">
+        <?php
+        foreach (findAllStates() as  $state) {
+        ?>
+          <option value=<?= $state->getId() ?>><?= $state->getName() ?></option>
+        <?php
+        }
+        ?>
+      </select>
+      <select id="city" name="city_id"></select>
 
-      <button type="submit" name="action" value=<?=$operation ?>>Enviar</button>
+      <button type="submit" name="action" value=<?= $operation ?>>Enviar</button>
 
     </form>
   </div>
+
+
 </body>
 
 </html>
+<script>
+  $("#state").on("change", () => {
+    const stateId = $("#state").val();
+
+    $.ajax({
+      url: 'controllers/city.php',
+      type: 'POST',
+      data: {
+        stateId,
+        action: 'getCitiesByStateId'
+      },
+      success: (data) => {
+        $("#city").html(data)
+      }
+    })
+  })
+</script>

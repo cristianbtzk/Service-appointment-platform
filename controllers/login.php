@@ -25,16 +25,40 @@ function login($email, $pass)
   $name = '';
   $pass_bd = '';
   $id = '';
+  $roleId = '';
   while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
     $id = $linha['id'];
     $name = $linha['name'];
     $pass_bd = $linha['password'];
+    $roleId = $linha['role_id'];
   }
   if (sha1($pass) == $pass_bd) {
     session_start();
     $_SESSION['userId'] = $id;
     $_SESSION['email'] = $email;
     $_SESSION['name'] = $name;
-    header("location:../categories.php");
+    $_SESSION['roleId'] = $roleId;
+
+    $dest = '';
+
+    switch ($roleId) {
+      case 1:
+        $dest = 'categories.php';
+        break;
+
+      case 2:
+        $dest = 'my-services.php';
+        break;
+
+      case 3:
+        $dest = 'index.php';
+        break;
+
+      default:
+        $dest = 'login.php';
+        break;
+    }
+
+    header("location:../" . $dest);
   }
 }

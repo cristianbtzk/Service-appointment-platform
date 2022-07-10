@@ -9,7 +9,7 @@ if ($action == "delete") {
   delete($id);
 }
 
-function findAll()
+function findAllStates()
 {
   $pdo = Connection::getInstance();
   $query = $pdo->query("SELECT * from states");
@@ -25,14 +25,5 @@ function createState($name, $abbreviation)
   $pdo = Connection::getInstance();
   $consulta = $pdo->query("INSERT INTO states (name, abbreviation) values ('$name', '$abbreviation')");
 
-  header("location:../categories.php");
-}
-
-function delete($id)
-{
-  $pdo = Connection::getInstance();
-  $query = $pdo->prepare('DELETE FROM states WHERE id=:id;');
-  $query->bindValue(':id', $id, PDO::PARAM_STR);
-  $query->execute();
   header("location:../categories.php");
 }

@@ -8,7 +8,7 @@
     private $to;
     private $service;
 
-    function __construct($service, $to, $from, $date, $text, $id)
+    function __construct($service, $to, $from, $date, $text, $id = null)
     {
       parent::__construct($id);
       $this->setService($service);

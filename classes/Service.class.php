@@ -9,10 +9,12 @@
     private $user;
     private $category;
     private $status;
+    private $address;
 
-    function __construct($status, $title, $category, $user, $maxDate, $minDate, $description, $id = null)
+    function __construct($address, $status, $title, $category, $user, $maxDate, $minDate, $description, $id = null)
     {
       parent::__construct($description, $id);
+      $this->setAddress($address); 
       $this->setStatus($status); 
       $this->setTitle($title); 
       $this->setCategory($category); 
@@ -101,6 +103,18 @@
     public function setStatus($status)
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    public function setAddress($address)
+    {
+        $this->address = $address;
 
         return $this;
     }

@@ -10,8 +10,9 @@ class User extends AbsId
   private $cpf;
   private $cnpj;
   private $role;
+  private $cities;
 
-  function __construct($role, $name, $email, $password, $cpf, $cnpj, $isActive = true,  $id = null)
+  function __construct($role, $name, $email, $password, $cpf, $cnpj, $isActive = true,  $id = null, $cities = array())
   {
     parent::__construct($id);
     $this->setName($name);
@@ -21,9 +22,8 @@ class User extends AbsId
     $this->setCnpj($cnpj);
     $this->setIsActive($isActive);
     $this->setRole($role);
+    $this->setCities($cities);
   }
-
-
 
   public function getIsActive()
   {
@@ -105,6 +105,18 @@ class User extends AbsId
   public function setRole($role)
   {
     $this->role = $role;
+
+    return $this;
+  }
+
+  public function getCities()
+  {
+    return $this->cities;
+  }
+
+  public function setCities($cities)
+  {
+    $this->cities = $cities;
 
     return $this;
   }

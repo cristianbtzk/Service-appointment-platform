@@ -3,6 +3,7 @@
 <?php 
   require_once __DIR__ . "/controllers/category.php";
   require_once __DIR__ . "/controllers/service.php";
+  require_once __DIR__ . "/controllers/address.php";
   $operation = isset($_GET['operation']) ? $_GET['operation'] : 'create';
   $service = null;
   if ($operation == 'update') {
@@ -27,9 +28,19 @@
       <input type="datetime-local" name="max-date" placeholder="Data Máxima" value=<?php echo !$service ? null : date('Y-m-d\TH:i', strtotime($service->getMaxDate())) ?>>
       <select name="category_id">
         <?php
-          foreach(findAll() as  $category) {
+          foreach(findAllCategories() as  $category) {
             ?>
               <option value=<?=$category->getId() ?>><?=$category->getTitle() ?></option>
+            <?php
+          }
+        ?>
+      </select>
+      <select name="address_id">
+        <?php
+        print_r(findAddressesByUserId());
+          foreach(findAddressesByUserId() as  $address) {
+            ?>
+              <option value=<?=$address->getId() ?>><?=$address->getStreet() ?></option>
             <?php
           }
         ?>

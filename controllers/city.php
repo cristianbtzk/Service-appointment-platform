@@ -1,8 +1,8 @@
 <?php
 
-include_once "../conf/default.inc.php";
-require_once "../conf/Connection.php";
-require_once "../autoload.php";
+include_once __DIR__ . "/../conf/default.inc.php";
+require_once __DIR__ . "/../conf/Connection.php";
+require_once __DIR__ . "/../autoload.php";
 
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 if ($action == "delete") {
@@ -10,13 +10,29 @@ if ($action == "delete") {
   delete($id);
 }
 
+$action = isset($_POST['action']) ? $_POST['action'] : "";
+if ($action == "getCitiesByStateId") {
+  $stateId = $_POST['stateId'];
+  citiesOptions($stateId);
+}
 
+function citiesOptions($stateId) {
+  $cities = findCitiesByStateId($stateId);
+  foreach ($cities as $city) {
+    $id = $city->getId();
+    echo "<option value='$id' >". $city->getName(). "</option>";
+  }
+}
 
-function delete($id)
+function findCitiesByStateId($stateId)
 {
   $pdo = Connection::getInstance();
-  $query = $pdo->prepare('DELETE FROM states WHERE id=:id;');
-  $query->bindValue(':id', $id, PDO::PARAM_STR);
+  $query = $pdo->prepare("SELECT * from cities where state_id=:state_id");
+  $query->bindValue(':state_id', $stateId, PDO::PARAM_STR);
   $query->execute();
-  header("location:../categories.php");
+  $result = array();
+  foreach ($query as $row) {
+    array_push($result, new City($row['state_id'], $row['name'], $row['id']));
+  }
+  return $result;
 }
